@@ -179,6 +179,8 @@ int main(int argc, char **argv)
         log_error("没有 %s 的写入权限", WEB_FILE);
         return -1; 
     }
+    // 初始化网页文件
+    write_pw_status_to_html(0);
 
     log_info("启动进程 %s", argv[0]);
 
