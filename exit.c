@@ -15,7 +15,7 @@ void signal_handler(int signum) {
 
 int check_keep_file() {
     if (access(KEEP_FILE, F_OK) != 0) {
-        remove(KEEP_FILE);
+        //remove(KEEP_FILE);
         log_info("Keep file removed...");
         keep_running = 0;
         return 1;

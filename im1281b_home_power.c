@@ -159,12 +159,20 @@ int main(int argc, char **argv)
 
     // 创建 KEEP_FILE
     FILE *fp_keep = fopen(KEEP_FILE, "w");
+    if(fp_keep == NULL)
+    {
+        log_error("打开 KEEP_FILE 失败!");
+        return -1;
+    }
     fclose(fp_keep);
 
     // 打开日志文件
     FILE *fp_log = fopen(LOG_FILE, "a");
     if(log_add_fp(fp_log, LOG_INFO) != 0)
+    {
         log_error("打开日志文件失败!");
+        return -1;
+    }
 
     log_info("启动进程 %s", argv[0]);
 
@@ -386,6 +394,8 @@ int main(int argc, char **argv)
     if (fp != NULL) {
         fprintf(fp, "NONE");
         fclose(fp);
+    } else {
+        log_error("打开 %s 失败", DATA_FILE);
     }
 
     /* Free receive buffer. */
@@ -397,6 +407,7 @@ int main(int argc, char **argv)
 
     log_info("~~~再见~~~");
 
+    // 关闭日志
     fclose(fp_log);
     return 0;
 }

@@ -120,5 +120,7 @@ void error_to_data_file(void)
     if (fp != NULL) {
         fprintf(fp, "ERROR");
         fclose(fp);
+    } else {
+        log_error("打开 %s 失败", DATA_FILE);
     }
 }
