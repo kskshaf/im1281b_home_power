@@ -161,7 +161,7 @@ int main(int argc, char **argv)
     FILE *fp_keep = fopen(KEEP_FILE, "w");
     if(fp_keep == NULL)
     {
-        log_error("打开 KEEP_FILE 失败!");
+        log_error("创建 KEEP_FILE 失败!");
         return -1;
     }
     fclose(fp_keep);
@@ -172,6 +172,12 @@ int main(int argc, char **argv)
     {
         log_error("打开日志文件失败!");
         return -1;
+    }
+
+    // 检查网页文件
+    if (access(WEB_FILE, W_OK) != 0) {
+        log_error("没有 %s 的写入权限", WEB_FILE);
+        return -1; 
     }
 
     log_info("启动进程 %s", argv[0]);

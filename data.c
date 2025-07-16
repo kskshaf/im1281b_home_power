@@ -97,14 +97,15 @@ void get_module_data(uint8_t *frame)
     }
 }
 
+// 将电源状态写入 html 文件，以供其他设备访问电源状态
 void write_pw_status_to_html(int status)
 {
     FILE *fp = fopen(WEB_FILE, "w");
     if (fp != NULL) {
-        if(!status) {
-            fprintf(fp, "ciallo-114514-status-ok");
-        } else {
+        if(status) {
             fprintf(fp, "ciallo-114514-power-off");
+        } else {
+            fprintf(fp, "ciallo-114514-status-ok");
         }
 
         fclose(fp);
