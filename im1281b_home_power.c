@@ -270,6 +270,7 @@ int main(int argc, char **argv)
             sp_flush(port, SP_BUF_INPUT);
             result = check(sp_blocking_read(port, buf, receive_size, Timeout));
             read_retry++;
+            usleep(1000*1000);
         }
         read_retry = 0;
 
