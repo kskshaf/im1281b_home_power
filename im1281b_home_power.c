@@ -235,6 +235,7 @@ int main(int argc, char **argv)
         if (result != size)
         {
             log_error("发送超时, %d/%d 字节已发送", result, size);
+            error_to_data_file();  // 写入错误状态到数据文件
 
             // 关闭串口
             free(buf);
