@@ -177,7 +177,7 @@ int main(int argc, char **argv)
     // 检查网页文件
     if (access(WEB_FILE, W_OK) != 0) {
         log_error("没有 %s 的写入权限", WEB_FILE);
-        return -1; 
+        return -1;
     }
     // 初始化网页文件
     write_pw_status_to_html(0);
@@ -230,6 +230,7 @@ int main(int argc, char **argv)
 
     while(keep_running && !check_keep_file())
     {
+        // 由于使用的是系统自带的串口, 若发送超时则说明系统出了问题, 故此处不添加重试
         result = check(sp_blocking_write(port, data_send, size, Timeout));
         if (result != size)
         {
@@ -267,8 +268,11 @@ int main(int argc, char **argv)
 
             error_to_data_file();  // 写入错误状态到数据文件
             log_warn("发送超时, %d/%d 字节已接收, 正在重试: %d", result, receive_size, read_retry+1);
-            sp_flush(port, SP_BUF_INPUT);
+
+            sp_flush(port, SP_BUF_INPUT);                      // 清除接收缓存
+            sp_blocking_write(port, data_send, size, Timeout); // 发送数据先
             result = check(sp_blocking_read(port, buf, receive_size, Timeout));
+
             read_retry++;
             usleep(1000*1000);
         }
