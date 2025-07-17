@@ -267,7 +267,7 @@ int main(int argc, char **argv)
             }
 
             error_to_data_file();  // 写入错误状态到数据文件
-            log_warn("发送超时, %d/%d 字节已接收, 正在重试: %d", result, receive_size, read_retry+1);
+            log_warn("接收超时, %d/%d 字节已接收, 正在重试: %d", result, receive_size, read_retry+1);
 
             sp_flush(port, SP_BUF_INPUT);                      // 清除接收缓存
             sp_blocking_write(port, data_send, size, Timeout); // 发送数据先
