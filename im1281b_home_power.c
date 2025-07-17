@@ -224,6 +224,7 @@ int main(int argc, char **argv)
     int receive_size = 37;
     uint8_t  *buf = malloc(receive_size + 1);
 
+    int read_retry = 0;
     int count_0 = 0, count_1 = 0, count_2 = 0, count_3 = 0;
     int p_count = 0;
 
@@ -249,8 +250,7 @@ int main(int argc, char **argv)
         result = check(sp_blocking_read(port, buf, receive_size, Timeout));
         while (result != receive_size)
         {
-            static int read_retry = 0;
-            if(read_retry > 5) {
+            if(read_retry >= 5) {
                 log_error("重试超过5次, 退出进程");
 
                 // 关闭串口
@@ -267,9 +267,11 @@ int main(int argc, char **argv)
 
             error_to_data_file();  // 写入错误状态到数据文件
             log_warn("发送超时, %d/%d 字节已接收, 正在重试: %d", result, receive_size, read_retry+1);
+            sp_flush(port, SP_BUF_INPUT);
             result = check(sp_blocking_read(port, buf, receive_size, Timeout));
             read_retry++;
         }
+        read_retry = 0;
 
 
         /* Check if we received the same data we sent. */
