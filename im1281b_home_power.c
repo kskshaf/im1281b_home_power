@@ -249,8 +249,8 @@ int main(int argc, char **argv)
         result = check(sp_blocking_read(port, buf, receive_size, Timeout));
         while (result != receive_size)
         {
-            static int send_retry = 0;
-            if(send_retry > 5) {
+            static int read_retry = 0;
+            if(read_retry > 5) {
                 log_error("重试超过5次, 退出进程");
 
                 // 关闭串口
@@ -266,9 +266,9 @@ int main(int argc, char **argv)
             }
 
             error_to_data_file();  // 写入错误状态到数据文件
-            log_warn("发送超时, %d/%d 字节已接收, 正在重试: %d", result, receive_size, send_retry+1);
+            log_warn("发送超时, %d/%d 字节已接收, 正在重试: %d", result, receive_size, read_retry+1);
             result = check(sp_blocking_read(port, buf, receive_size, Timeout));
-            send_retry++;
+            read_retry++;
         }
 
 
