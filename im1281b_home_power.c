@@ -168,11 +168,12 @@ int main(int argc, char **argv)
 
     // 打开日志文件
     FILE *fp_log = fopen(LOG_FILE, "a");
-    if(log_add_fp(fp_log, LOG_INFO) != 0)
+    if(fp_log == NULL)
     {
         log_error("打开日志文件失败!");
         return -1;
     }
+    log_add_fp(fp_log, LOG_INFO);
 
     // 检查网页文件
     if (access(WEB_FILE, W_OK) != 0) {

@@ -18,7 +18,7 @@
 
 #define DATA_FILE  "/tmp/im1281b_data"
 #define KEEP_FILE  "/tmp/im1281b_keep"
-#define LOG_FILE   "/var/log/im1281b/im1281b.log" // 需要 mkdir
+#define LOG_FILE   "/var/log/o-sensors/im1281b.log" // 需要 mkdir
 #define WEB_FILE   "/usr/share/test-web/index.html"
 
 #define Voltage_POF   120
